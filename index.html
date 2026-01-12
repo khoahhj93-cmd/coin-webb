@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Đào Coin</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f1220;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+.box {
+  background: #1c1f3a;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 15px auto;
+}
+h1 { color: #00ffcc; }
+.coin {
+  font-size: 28px;
+  color: #ffd700;
+  margin: 15px 0;
+}
+select, input, button {
+  width: 90%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+  border: none;
+}
+button {
+  background: #00ffcc;
+  font-weight: bold;
+  cursor: pointer;
+}
+img {
+  max-width: 220px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ĐÀO COIN -->
+<div class="box">
+  <h1>⛏️ ĐÀO COIN</h1>
+  <div class="coin" id="coin">0.000000000</div>
+  <p>Coin đang tự động đào mỗi giây...</p>
+</div>
+
+<!-- RÚT TIỀN -->
+<div class="box">
+  <h2>🏦 RÚT TIỀN</h2>
+
+  <select id="bank">
+    <option value="">-- Chọn ngân hàng --</option>
+    <option>MB Bank</option>
+    <option>Agribank</option>
+    <option>Vietcombank</option>
+    <option>Techcombank</option>
+  </select>
+
+  <input type="text" id="stk" placeholder="Số tài khoản">
+  <input type="text" id="name" placeholder="Tên chủ tài khoản">
+
+  <button onclick="withdraw()">Rút tiền</button>
+</div>
+
+<!-- NẠP TIỀN -->
+<div class="box">
+  <h2>💰 NẠP TIỀN</h2>
+  <p>Quét QR để nạp</p>
+
+  <!-- QR GẮN SẴN TRONG CODE -->
+  <img src="https://i.imgur.com/8Km9tLL.png" alt="QR Nạp Coin">
+</div>
+
+<script>
+let coin = 0;
+
+// đào coin mỗi giây (KHÔNG BỊ TREO)
+setInterval(() => {
+  let add = Math.random() * 0.00000001;
+  coin += add;
+  document.getElementById("coin").innerText = coin.toFixed(9);
+}, 1000);
+
+// rút tiền
+function withdraw() {
+  let bank = document.getElementById("bank").value;
+  let stk = document.getElementById("stk").value;
+  let name = document.getElementById("name").value;
+
+  if (!bank || !stk || !name) {
+    alert("❌ Vui lòng nhập đầy đủ thông tin!");
+    return;
+  }
+
+  if (coin < 0.000001) {
+    alert("⚠️ Số dư không đủ để rút!");
+    return;
+  }
+
+  alert(
+    "✅ RÚT TIỀN THÀNH CÔNG\n\n" +
+    "Ngân hàng: " + bank + "\n" +
+    "STK: " + stk + "\n" +
+    "Tên: " + name + "\n" +
+    "Coin: " + coin.toFixed(9)
+  );
+
+  // reset coin sau khi rút
+  coin = 0;
+  document.getElementById("coin").innerText = coin.toFixed(9);
+}
+</script>
+
+</body>
+</html>
